@@ -31,8 +31,8 @@ int sim_readlength(int read_length) {
 
 // boxplot(t(t[,c(2:11)]),xlab="coverage",ylab="min 5 reads supporting")
 
-void est_cov(int read_length, int num_SV, int min_overlap, int min_support,int coverage) {
-	srand(time(NULL));
+void est_cov(int read_length, int num_SV, int min_overlap, int min_support,int coverage, unsigned seed) {
+	srand(seed);
 	long genome=300000000;
 	/* int min_overlap=50;
 	 int read_length=400;

@@ -162,7 +162,7 @@ void simulate_reads(std::string name, std::string seq, FILE*& file, FILE*& sam, 
 	}
 }
 
-void simulate_pac(std::string genome, std::string output) {
+void simulate_pac(std::string genome, std::string output, unsigned seed) {
 	size_t buffer_size = 2000000;
 	char*buffer = new char[buffer_size];
 	std::ifstream myfile;
@@ -189,7 +189,7 @@ void simulate_pac(std::string genome, std::string output) {
 	out += ".sam";
 	sam = fopen(out.c_str(), "w");
 
-	srand(time(NULL));
+	srand(seed);
 	while (!myfile.eof()) {
 		if (buffer[0] == '>') {
 			if (!seq.empty()) {

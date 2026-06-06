@@ -73,6 +73,6 @@ struct insertions {
 	std::string seq;
 };
 
-void simulate_SV(std::string ref_file, std::string parameter_file,float snp_freq, bool coordinates, std::string output_prefix);
+void simulate_SV(std::string ref_file, std::string parameter_file,float snp_freq, bool coordinates, std::string output_prefix, unsigned seed);
 void generate_parameter_file(std::string parameter_file);
 #endif /* SIMULATOR_SV_SIMULATOR_H_ */

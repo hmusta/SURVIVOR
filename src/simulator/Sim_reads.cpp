@@ -199,8 +199,8 @@ std::vector<read_position> parse_error_profile(std::string error_profile_file) {
 	return error_profile;
 }
 
-void simulate_reads(std::string genome_file, std::string error_profile_file, int coverage, std::string output) {
-	srand(time(NULL));
+void simulate_reads(std::string genome_file, std::string error_profile_file, int coverage, std::string output, unsigned seed) {
+	srand(seed);
 
 	std::vector<read_position> error_profile = parse_error_profile(error_profile_file);
 	int avg_readlen = 0;

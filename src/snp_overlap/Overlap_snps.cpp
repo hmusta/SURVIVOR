@@ -736,13 +736,13 @@ std::map<std::string, std::string> parse_fasta(std::string genome_file) {
 	return genome;
 }
 
-void generate_random_regions(std::string genome_file, std::string svs_vcf, int min_svs, std::string output) {
+void generate_random_regions(std::string genome_file, std::string svs_vcf, int min_svs, std::string output, unsigned seed) {
 	std::map<std::string, std::string> genome = parse_fasta(genome_file);
 	cout << "CHR detected: " << genome.size() << endl;
 	Parameter::Instance()->min_freq = 0.05;
 	std::vector<strvcfentry> entries = parse_vcf(svs_vcf, min_svs);
 	cout << "Parsed SVS: " << entries.size() << endl;
-	srand(time(NULL));
+	srand(seed);
 	FILE *file;
 	file = fopen(output.c_str(), "w");
 

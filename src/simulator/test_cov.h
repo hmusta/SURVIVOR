@@ -21,7 +21,7 @@
 using namespace std;
 
 ///void est_cov(int coverage,int read_length,int num_SV,int genome,int min_overlap,int min_support);
-void est_cov(int read_length, int num_SV, int min_overlap, int min_support,int cov);
+void est_cov(int read_length, int num_SV, int min_overlap, int min_support,int cov, unsigned seed);
 void count_valid_reads(double allowed_n_ratio);
 
 

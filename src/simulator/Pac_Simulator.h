@@ -15,6 +15,6 @@
 #include <vector>
 #include <stdlib.h>
 #include <sstream>
-void simulate_pac(std::string genome,std::string out);
+void simulate_pac(std::string genome,std::string out, unsigned seed);
 
 #endif /* SIMULATOR_PAC_SIMULATOR_H_ */
