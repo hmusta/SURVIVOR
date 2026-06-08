@@ -7,8 +7,6 @@
 
 #include "SV_Simulator.h"
 
-#include <limits>
-
 bool is_valid(char base) {
 	return (((base == 'A' || base == 'C') || (base == 'R' || base == 'X')) || ((base == 'T' || base == 'G') || (base == 'N' || base == 'M')));
 }
@@ -128,7 +126,11 @@ parameter parse_param(std::string filename) {
 
 	tmp.intrachr_num = 0;
 
-    tmp.seed = 42;
+	tmp.seed = 42;
+        if (!myfile.eof()) {
+                tmp.seed = parse_value(buffer,buffer_size);
+                myfile.getline(buffer, buffer_size);
+        }
 	/*if (!myfile.eof()) {
 	 tmp.intrachr_min = parse_value(buffer, buffer_size);
 	 myfile.getline(buffer, buffer_size);
@@ -1073,6 +1075,7 @@ void simulate_SV(std::string ref_file, std::string parameter_file, float snp_fre
 	//read in list of SVs over vcf?
 	//apply vcf to genome?
 	parameter par = parse_param(parameter_file);
+        std::cout << "Random seed: " << par.seed << std::endl;
 	srand(par.seed);
 	int min_chr_len = std::max(std::max(par.dup_max, par.indel_max), std::max(par.inv_max, par.translocations_max));
 	std::map<std::string, std::string> genome = read_fasta(ref_file, min_chr_len);
@@ -1111,10 +1114,10 @@ void simulate_SV(std::string ref_file, std::string parameter_file, float snp_fre
 		} else {
 			snv = mut_snv(genome, snp_freq, file2, id, 1, par.hom_rate);
 		}
-		apply_mutations(genome, svs,par.dup_max_amp, std::numeric_limits<unsigned>::max() * rand());	// apply changes to the genome (e.g. insertions).
+		apply_mutations(genome, svs,par.dup_max_amp, rand());	// apply changes to the genome (e.g. insertions).
 	} else { //real read fake ref!
 		svs = generate_mutations_ref(parameter_file, genome);
-		apply_mutations_ref(genome, svs, std::numeric_limits<unsigned>::max() * rand());
+		apply_mutations_ref(genome, svs, rand());
 		mut_snv(genome, snp_freq, file2, id, -1, -1); // apply SNV (no indels) -1: cannot be diplod!
 	}
 	//check_genome(genome, "Post SV simulation");
@@ -1184,7 +1187,7 @@ void simulate_SV(std::string ref_file, std::string parameter_file, float snp_fre
 		}
 
 		//	mut_snv(genome, snp_freq, file2, id, 2,hom_rate); // apply SNV (no indels)
-		apply_mutations(genome, svs2,par.dup_max_amp, std::numeric_limits<unsigned>::max() * rand());
+		apply_mutations(genome, svs2,par.dup_max_amp, rand());
 
 		for (size_t i = 0; i < svs2.size(); i++) {
 			if (svs2[i].print) {

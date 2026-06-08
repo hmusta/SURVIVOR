@@ -91,7 +91,7 @@ void official_interface(int argc, char *argv[]) {
 		} else if (strcmp(argv[1], "simreads") == 0) {
 
 			if (argc == 6) {
-				simulate_reads(std::string(argv[2]), std::string(argv[3]), atoi(argv[4]), std::string(argv[5]), std::numeric_limits<unsigned>::max() * rand());
+				simulate_reads(std::string(argv[2]), std::string(argv[3]), atoi(argv[4]), std::string(argv[5]), rand());
 			} else {
 				std::cerr << "No parameters provided:" << std::endl;
 				std::cerr << "1: Reference fasta file" << std::endl;
