@@ -7,6 +7,8 @@
 
 #include "SV_Simulator.h"
 
+#include <limits>
+
 bool is_valid(char base) {
 	return (((base == 'A' || base == 'C') || (base == 'R' || base == 'X')) || ((base == 'T' || base == 'G') || (base == 'N' || base == 'M')));
 }
