@@ -125,6 +125,8 @@ parameter parse_param(std::string filename) {
 	}
 
 	tmp.intrachr_num = 0;
+
+    tmp.seed = 42;
 	/*if (!myfile.eof()) {
 	 tmp.intrachr_min = parse_value(buffer, buffer_size);
 	 myfile.getline(buffer, buffer_size);
@@ -1063,13 +1065,13 @@ std::vector<struct_var> mut_snv(std::map<std::string, std::string> & genome, flo
 	}
 	return snv;
 }
-void simulate_SV(std::string ref_file, std::string parameter_file, float snp_freq, bool coordinates, std::string output_prefix, unsigned seed) {
+void simulate_SV(std::string ref_file, std::string parameter_file, float snp_freq, bool coordinates, std::string output_prefix) {
 
 
 	//read in list of SVs over vcf?
 	//apply vcf to genome?
-	srand(seed);
 	parameter par = parse_param(parameter_file);
+	srand(par.seed);
 	int min_chr_len = std::max(std::max(par.dup_max, par.indel_max), std::max(par.inv_max, par.translocations_max));
 	std::map<std::string, std::string> genome = read_fasta(ref_file, min_chr_len);
 

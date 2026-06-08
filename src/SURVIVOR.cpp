@@ -54,14 +54,11 @@ Parameter* Parameter::m_pInstance = NULL;
 //make file: LIBS +=-lz
 
 void official_interface(int argc, char *argv[]) {
-    unsigned seed = 42;
-    srand(seed);
-
 	if (argc > 1) {
 		if (strcmp(argv[1], "simSV") == 0) {
 			if (argc == 7) {
 				bool coordinates = bool(atoi(argv[5]) == 0);
-				simulate_SV(std::string(argv[2]), std::string(argv[3]), atof(argv[4]), coordinates, std::string(argv[6]), std::numeric_limits<unsigned>::max() * rand());
+				simulate_SV(std::string(argv[2]), std::string(argv[3]), atof(argv[4]), coordinates, std::string(argv[6]));
 				std::cout << "Done: SV+SNP simulated" << std::endl;
 			} else if (argc == 3) {
 				generate_parameter_file(std::string(argv[2]));
