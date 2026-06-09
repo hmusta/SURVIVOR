@@ -423,7 +423,34 @@ std::vector<struct_var> generate_mutations(std::string parameter_file, std::map<
 	return svs;
 }
 
+void print_params(const parameter &par) {
+        std::cout << "DUPLICATION_minimum_length: " << par.dup_min << "\n"
+                  << "DUPLICATION_maximum_length: " << par.dup_max << "\n"
+                  << "DUPLICATION_maximum_num: " << par.dup_max_amp << "\n"
+                  << "DUPLICATION_number: " << par.dup_num << "\n"
+                  << "INDEL_minimum_length: " << par.indel_min << "\n"
+                  << "INDEL_maximum_length: " << par.indel_max << "\n"
+                  << "INDEL_number: " << par.indel_num << "\n"
+                  << "TRANSLOCATION_minimum_length: " << par.translocations_min << "\n"
+                  << "TRANSLOCATION_maximum_length: " << par.translocations_max << "\n"
+                  << "TRANSLOCATION_number: " << par.translocations_num << "\n"
+                  << "INVERSION_minimum_length: " << par.inv_min << "\n"
+                  << "INVERSION_maximum_length: " << par.inv_max << "\n"
+                  << "INVERSION_number: " << par.inv_num << "\n"
+                  << "INV_del_minimum_length: " << par.inv_del_min << "\n"
+                  << "INV_del_maximum_length: " << par.inv_del_max << "\n"
+                  << "INV_del_number: " << par.inv_del_num << "\n"
+                  << "INV_dup_minimum_length: " << par.inv_dup_min << "\n"
+                  << "INV_dup_maximum_length: " << par.inv_dup_max << "\n"
+                  << "INV_dup_number: " << par.inv_dup_num << "\n"
+                  << "Number_haploid: " << par.diploid << "\n"
+                  << "homozygous_ratio: " << par.hom_rate << "\n"
+                  << "Random seed: " << par.seed << "\n"
+                  << std::endl;
+}
+
 std::vector<struct_var> generate_mutations_ref(std::string parameter_file, std::map<std::string, std::string> genome) {
+        std::cout << "start ref muts based on file " << parameter_file << std::endl;
 	parameter par = parse_param(parameter_file);
 	std::vector<struct_var> svs;
 //duplications
@@ -1075,30 +1102,8 @@ void simulate_SV(std::string ref_file, std::string parameter_file, float snp_fre
 	//read in list of SVs over vcf?
 	//apply vcf to genome?
 	parameter par = parse_param(parameter_file);
-        std::cout << "DUPLICATION_minimum_length: " << par.dup_min << "\n"
-                  << "DUPLICATION_maximum_length: " << par.dup_max << "\n"
-                  << "DUPLICATION_maximum_num: " << par.dup_max_amp << "\n"
-                  << "DUPLICATION_number: " << par.dup_num << "\n"
-                  << "INDEL_minimum_length: " << par.indel_min << "\n"
-                  << "INDEL_maximum_length: " << par.indel_max << "\n"
-                  << "INDEL_number: " << par.indel_num << "\n"
-                  << "TRANSLOCATION_minimum_length: " << par.translocations_min << "\n"
-                  << "TRANSLOCATION_maximum_length: " << par.translocations_max << "\n"
-                  << "TRANSLOCATION_number: " << par.translocations_num << "\n"
-                  << "INVERSION_minimum_length: " << par.inv_min << "\n"
-                  << "INVERSION_maximum_length: " << par.inv_max << "\n"
-                  << "INVERSION_number: " << par.inv_num << "\n"
-                  << "INV_del_minimum_length: " << par.inv_del_min << "\n"
-                  << "INV_del_maximum_length: " << par.inv_del_max << "\n"
-                  << "INV_del_number: " << par.inv_del_num << "\n"
-                  << "INV_dup_minimum_length: " << par.inv_dup_min << "\n"
-                  << "INV_dup_maximum_length: " << par.inv_dup_max << "\n"
-                  << "INV_dup_number: " << par.inv_dup_num << "\n"
-                  << "Number_haploid: " << par.diploid << "\n"
-                  << "homozygous_ratio: " << par.hom_rate << "\n"
-                  << "Random seed: " << par.seed << "\n"
-                  << std::endl;
-	srand(par.seed);
+        print_params(par);
+        srand(par.seed);
 	int min_chr_len = std::max(std::max(par.dup_max, par.indel_max), std::max(par.inv_max, par.translocations_max));
 	std::map<std::string, std::string> genome = read_fasta(ref_file, min_chr_len);
 
@@ -1123,7 +1128,10 @@ void simulate_SV(std::string ref_file, std::string parameter_file, float snp_fre
 	print_vcf_header2(file2, genome);
 
 	/// Start sim of SV:
-	std::cout << "generate SV over chrs:" << genome.size() << std::endl;
+	std::cout << "generate SV over chrs:" << genome.size() << "\n"
+                  << "snp freq: " << snp_freq << "\n"
+                  << "ref or reads: " << coordinates
+                  << std::endl;
 	float snv_ration = (snp_freq * par.hom_rate);
 	std::vector<struct_var> svs;
 	std::vector<struct_var> snv;
